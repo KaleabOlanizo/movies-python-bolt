@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import logging
 import os
+from dotenv import load_dotenv
 from json import dumps
 from textwrap import dedent
 from typing import cast
@@ -10,7 +11,10 @@ from flask import Flask, Response, request
 from neo4j import GraphDatabase, basic_auth
 from typing_extensions import LiteralString
 
+load_dotenv()
+
 app = Flask(__name__, static_url_path="/static/")
+
 
 url = os.getenv("NEO4J_URI", "neo4j+s://demo.neo4jlabs.com")
 username = os.getenv("NEO4J_USER", "movies")
@@ -34,6 +38,9 @@ def query(q: LiteralString) -> LiteralString:
 def get_index():
     return app.send_static_file("index.html")
 
+@app.route("/index.js")
+def get_index_js():
+    return app.send_static_file("index.js")
 
 def serialize_movie(movie):
     return {
@@ -66,7 +73,7 @@ def get_graph():
         """),
         database_=database,
         routing_="r",
-        limit=request.args.get("limit", 100)
+        limit=request.args.get("limit", 10)
     )
     nodes = []
     rels = []
