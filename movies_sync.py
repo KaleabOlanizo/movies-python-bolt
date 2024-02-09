@@ -47,6 +47,10 @@ def get_index_js():
 def get_main_css():
     return app.send_static_file("main.css")
 
+@app.route("/logo.png")
+def get_logo():
+    return app.send_static_file("logo.png")
+
 def serialize_movie(movie):
     return {
         "id": movie["id"],
