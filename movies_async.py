@@ -4,13 +4,14 @@ import os
 from contextlib import asynccontextmanager
 from textwrap import dedent
 from typing import Optional, cast
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 import neo4j
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from neo4j import AsyncGraphDatabase
 from typing_extensions import LiteralString
+from flask.cli import load_dotenv
 
 load_dotenv()
 

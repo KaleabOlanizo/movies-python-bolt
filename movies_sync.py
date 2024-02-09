@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import logging
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from json import dumps
 from textwrap import dedent
 from typing import cast
+from flask.cli import load_dotenv
 
 import neo4j
 from flask import Flask, Response, request
@@ -19,7 +20,7 @@ app = Flask(__name__, static_url_path="/static/")
 url = os.getenv("NEO4J_URI", "neo4j+s://demo.neo4jlabs.com")
 username = os.getenv("NEO4J_USER", "movies")
 password = os.getenv("NEO4J_PASSWORD", "movies")
-neo4j_version = os.getenv("NEO4J_VERSION", "4")
+neo4j_version = os.getenv("NEO4J_VERSION", "5")
 database = os.getenv("NEO4J_DATABASE", "movies")
 
 port = int(os.getenv("PORT", 8080))
@@ -41,6 +42,10 @@ def get_index():
 @app.route("/index.js")
 def get_index_js():
     return app.send_static_file("index.js")
+
+@app.route("/main.css")
+def get_main_css():
+    return app.send_static_file("main.css")
 
 def serialize_movie(movie):
     return {
